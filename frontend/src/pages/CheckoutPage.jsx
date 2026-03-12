@@ -89,22 +89,16 @@ function CheckoutPage() {
                 </div>
             </header>
 
-            {/* Progress Header */}
-            <div className="bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-indigo-100">
-                <div className="max-w-6xl mx-auto px-6 py-6">
-                    <CheckoutHeader />
-                </div>
-            </div>
 
             {/* Main Content */}
             <div className="max-w-6xl mx-auto px-6 py-8">
                 <div className="grid grid-cols-3 gap-8">
                     {/* Left Section: Customer Type & Payment */}
-                    <div className="col-span-2 space-y-7">
+                    <div className="col-span-2 flex flex-col gap-5">
                         {/* Customer Type Strategy */}
-                        <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-gray-900 mb-5">📋 Chính sách giá</h2>
-                            <div className="space-y-3">
+                        <div className="bg-indigo-50 rounded-2xl p-8 border border-indigo-200 shadow-lg">
+                            <h2 className="text-xl font-extrabold text-indigo-800 mb-6">📋 Chính sách giá</h2>
+                            <div className="space-y-4">
                                 {customerTypes.map(type => (
                                     <label
                                         key={type.id}
@@ -136,11 +130,14 @@ function CheckoutPage() {
                             </div>
                         </div>
 
-                        {/* Payment Options */}
-                        <PaymentOptions
-                            paymentStrategy={paymentStrategy}
-                            onPaymentChange={setPaymentStrategy}
-                        />
+
+                        {/* Payment Options container */}
+                        <div className="bg-blue-50 rounded-2xl p-8 border border-blue-200 shadow-lg">
+                            <PaymentOptions
+                                paymentStrategy={paymentStrategy}
+                                onPaymentChange={setPaymentStrategy}
+                            />
+                        </div>
 
                         {/* Payment Button */}
                         <button
