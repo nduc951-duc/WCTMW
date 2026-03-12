@@ -27,7 +27,7 @@ function PaymentOptions({ paymentStrategy, onPaymentChange }) {
             description: 'Pay on delivery'
         },
         {
-            id: 'MOMO',
+            id: 'E_WALLET', // Đổi từ MOMO thành E_WALLET ở đây nhé để test thử qr
             name: 'Momo',
             icon: '📱',
             description: 'Popular e-wallet in Vietnam'

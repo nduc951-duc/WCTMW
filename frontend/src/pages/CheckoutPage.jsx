@@ -41,18 +41,29 @@ function CheckoutPage() {
     const handlePayment = async () => {
         setLoading(true);
         try {
-            // SỬ DỤNG HÀM TỪ api.js THAY VÌ FETCH TRỰC TIẾP
             const responseData = await checkoutAPI({
                 amount: cartTotal * 1000000,
                 customerTypeStrategy: customerType,
                 paymentStrategy,
             });
-            
+
+            if (!responseData || !responseData.data) {
+                throw new Error('Không thể kết nối với Backend!');
+            }
+
+            // NẾU CÓ TRẢ VỀ LINK MOMO -> CHUYỂN HƯỚNG SANG MOMO
+            if (responseData.data.payUrl) {
+                window.location.href = responseData.data.payUrl;
+                return;
+            }
+
+            // NẾU LÀ COD HOẶC CREDIT CARD -> BÁO THÀNH CÔNG NHƯ CŨ
             setTimeout(() => {
-                alert(`✅ Payment successful! Order ID: ${responseData.data?.orderId || 'N/A'}`);
+                alert(`✅ Payment successful! Order ID: ${responseData.data.orderId}`);
                 clearCart();
                 navigate('/');
             }, 1500);
+
         } catch (error) {
             alert(`❌ Payment error: ${error.message}`);
         } finally {
