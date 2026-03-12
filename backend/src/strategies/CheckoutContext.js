@@ -13,9 +13,13 @@ export class CheckoutContext {
   }
 
   setTaxStrategy(type) {
-    if (type === 'BUSINESS') this.taxStrategy = new VATTaxStrategy(); // 10%
-    else if (type === 'EDUCATION') this.taxStrategy = new USStateTaxStrategy(); // 8% (hoặc tạo mới EduTaxStrategy 5%)
-    else this.taxStrategy = new NoTaxStrategy(); // PERSONAL hoặc mặc định
+    if (type === 'BUSINESS') {
+      this.taxStrategy = new VATTaxStrategy(); // 10% VAT
+    } else if (type === 'EDUCATION') {
+      this.taxStrategy = new USStateTaxStrategy(); // 8% (tạm dùng cho Edu)
+    } else {
+      this.taxStrategy = new NoTaxStrategy(); // PERSONAL hoặc mặc định
+    }
   }
 
   setPaymentStrategy(type) {
