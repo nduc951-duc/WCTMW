@@ -6,10 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
-  credentials: true
-}));
+app.use(cors()); // Mở khóa cho mọi URL (localhost hay 127.0.0.1 đều được)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

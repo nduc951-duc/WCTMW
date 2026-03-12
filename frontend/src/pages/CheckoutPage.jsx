@@ -5,6 +5,7 @@ import CheckoutHeader from '../components/payment/CheckoutHeader';
 import PaymentOptions from '../components/payment/PaymentOptions';
 import CartSummary from '../components/payment/CartSummary';
 import { calculateCheckoutTotal, formatPrice } from '../utils/priceCalculation';
+import { checkoutAPI } from '../services/api';
 
 function CheckoutPage() {
     const navigate = useNavigate();
@@ -40,23 +41,15 @@ function CheckoutPage() {
     const handlePayment = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:3000/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    amount: cartTotal * 1000000,
-                    customerTypeStrategy: customerType,
-                    paymentStrategy,
-                })
+            // SỬ DỤNG HÀM TỪ api.js THAY VÌ FETCH TRỰC TIẾP
+            const responseData = await checkoutAPI({
+                amount: cartTotal * 1000000,
+                customerTypeStrategy: customerType,
+                paymentStrategy,
             });
-
-            if (!response.ok) throw new Error('Payment failed');
-
-            const data = await response.json();
-
-            // Simulate payment success
+            
             setTimeout(() => {
-                alert(`✅ Payment successful! Order ID: ${data.data?.orderId || 'N/A'}`);
+                alert(`✅ Payment successful! Order ID: ${responseData.data?.orderId || 'N/A'}`);
                 clearCart();
                 navigate('/');
             }, 1500);
