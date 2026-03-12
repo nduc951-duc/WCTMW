@@ -1,0 +1,27 @@
+{
+  "name": "strategy-demo-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend server demonstrating Strategy Design Pattern",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "keywords": [
+    "design-pattern",
+    "strategy-pattern",
+    "nodejs",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
