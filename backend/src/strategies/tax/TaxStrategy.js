@@ -1,19 +1,7 @@
-// src/strategies/tax/TaxStrategy.js
+﻿// src/strategies/tax/TaxStrategy.js
 
-export class NoTaxStrategy {
+export class TaxStrategy {
   calculate(amount) {
-    return 0; // 0% tax
+    throw new Error('TaxStrategy.calculate(amount) must be implemented');
   }
 }
-
-export class VATTaxStrategy {
-  calculate(amount) {
-    return amount * 0.1; // 10% VAT
-  }
-}
-
-export class USStateTaxStrategy {
-  calculate(amount) {
-    return amount * 0.08; // 8% tax
-  }
-}   

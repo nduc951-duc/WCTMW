@@ -1,24 +1,9 @@
-import { useState } from 'react';
-
-function PaymentOptions({ paymentStrategy, onPaymentChange }) {
-    // Khai báo TRỌN VẸN tên class Tailwind để trình biên dịch nhận diện được
+function PaymentOptions({ paymentStrategy, onPaymentChange, cardInfo, onCardInfoChange }) {
     const paymentMethods = [
-        {
-            id: 'PAYPAL',
-            name: 'Paypal',
-            icon: '🅿️',
-            description: 'Pay securely with your Paypal account',
-            theme: {
-                border: 'border-blue-500',
-                bg: 'bg-blue-50/50',
-                check: 'bg-blue-500',
-                ring: 'ring-blue-500'
-            }
-        },
         {
             id: 'CREDIT_CARD',
             name: 'Credit card',
-            icon: '💳',
+            icon: 'ðŸ’³',
             description: 'Pay securely using your card',
             theme: {
                 border: 'border-purple-500',
@@ -28,21 +13,9 @@ function PaymentOptions({ paymentStrategy, onPaymentChange }) {
             }
         },
         {
-            id: 'GOOGLE_PAY',
-            name: 'Google pay',
-            icon: '🔵',
-            description: 'Fast and secure payment',
-            theme: {
-                border: 'border-red-500',
-                bg: 'bg-red-50/50',
-                check: 'bg-red-500',
-                ring: 'ring-red-500'
-            }
-        },
-        {
             id: 'COD',
             name: 'Cash on delivery',
-            icon: '💵',
+            icon: 'ðŸ’µ',
             description: 'Pay on delivery',
             theme: {
                 border: 'border-green-500',
@@ -52,9 +25,9 @@ function PaymentOptions({ paymentStrategy, onPaymentChange }) {
             }
         },
         {
-            id: 'E_WALLET', // Đổi từ MOMO thành E_WALLET ở đây nhé để test thử qr
+            id: 'E_WALLET',
             name: 'Momo',
-            icon: '📱',
+            icon: 'ðŸ“±',
             description: 'Popular e-wallet in Vietnam',
             theme: {
                 border: 'border-pink-500',
@@ -65,12 +38,17 @@ function PaymentOptions({ paymentStrategy, onPaymentChange }) {
         }
     ];
 
+    const handleCardChange = (field) => (event) => {
+        if (!onCardInfoChange) return;
+        onCardInfoChange({ ...cardInfo, [field]: event.target.value });
+    };
+
     return (
         <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 shadow-sm max-w-xl mx-auto">
             <h3 className="text-xl font-black text-gray-900 mb-1 flex items-center gap-2">
-                💳 Phương thức thanh toán
+                ðŸ’³ PhÆ°Æ¡ng thá»©c thanh toÃ¡n
             </h3>
-            <p className="text-sm text-gray-500 mb-6">Mọi giao dịch đều được mã hóa và bảo mật an toàn</p>
+            <p className="text-sm text-gray-500 mb-6">Má»i giao dá»‹ch Ä‘á»u Ä‘Æ°á»£c mÃ£ hÃ³a vÃ  báº£o máº­t an toÃ n</p>
 
             <div className="flex flex-col gap-2">
                 {paymentMethods.map(method => {
@@ -79,7 +57,7 @@ function PaymentOptions({ paymentStrategy, onPaymentChange }) {
 
                     return (
                         <div key={method.id} className={`rounded-xl transition-all duration-300 border-2 p-2 mb-4 ${isSelected ? `${activeTheme.border} ${activeTheme.bg} shadow-lg` : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
-                            {/* Khu vực Nút chọn */}
+                            {/* Khu vá»±c NÃºt chá»n */}
                             <label className="flex items-start gap-4 p-5 cursor-pointer w-full">
                                 <input
                                     type="radio"
@@ -105,54 +83,62 @@ function PaymentOptions({ paymentStrategy, onPaymentChange }) {
                                 </div>
                             </label>
 
-                            {/* Credit Card Form - Animation xổ xuống mượt mà */}
+                            {/* Credit Card Form - Animation xá»• xuá»‘ng mÆ°á»£t mÃ  */}
                             <div className={`grid transition-all duration-300 ease-in-out ${isSelected && method.id === 'CREDIT_CARD' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                                 <div className="overflow-hidden">
                                     {method.id === 'CREDIT_CARD' && (
                                         <div className="p-5 pt-0 mt-2">
                                             <div className="bg-white rounded-xl p-5 border border-purple-100 shadow-inner space-y-4">
-                                                {/* Hàng 1: Số thẻ */}
+                                                {/* HÃ ng 1: Sá»‘ tháº» */}
                                                 <div>
                                                     <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Card Number</label>
                                                     <div className="relative">
                                                         <input
                                                             type="text"
                                                             placeholder="1234 1234 1234 1234"
+                                                            value={cardInfo?.cardNumber || ''}
+                                                            onChange={handleCardChange('cardNumber')}
                                                             className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                                                         />
-                                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 opacity-50">💳</span>
+                                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 opacity-50">ðŸ’³</span>
                                                     </div>
                                                 </div>
 
-                                                {/* Hàng 2: Tên, Ngày, CVV (Chia lưới 12 cột) */}
+                                                {/* HÃ ng 2: TÃªn, NgÃ y, CVV (Chia lÆ°á»›i 12 cá»™t) */}
                                                 <div className="grid grid-cols-12 gap-3">
-                                                    {/* Ô Tên chiếm 6/12 */}
+                                                    {/* Ã” TÃªn chiáº¿m 6/12 */}
                                                     <div className="col-span-12 sm:col-span-6">
                                                         <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Name on card</label>
                                                         <input
                                                             type="text"
                                                             placeholder="JOHN DOE"
+                                                            value={cardInfo?.cardName || ''}
+                                                            onChange={handleCardChange('cardName')}
                                                             className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent uppercase transition-all"
                                                         />
                                                     </div>
 
-                                                    {/* Ô Ngày chiếm 3/12 */}
+                                                    {/* Ã” NgÃ y chiáº¿m 3/12 */}
                                                     <div className="col-span-6 sm:col-span-3">
                                                         <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Expires</label>
                                                         <input
                                                             type="text"
                                                             placeholder="MM/YY"
+                                                            value={cardInfo?.expiry || ''}
+                                                            onChange={handleCardChange('expiry')}
                                                             className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                                                         />
                                                     </div>
 
-                                                    {/* Ô CVV chiếm 3/12 */}
+                                                    {/* Ã” CVV chiáº¿m 3/12 */}
                                                     <div className="col-span-6 sm:col-span-3">
                                                         <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">CVV</label>
                                                         <input
                                                             type="password"
-                                                            placeholder="•••"
+                                                            placeholder="â€¢â€¢â€¢"
                                                             maxLength="4"
+                                                            value={cardInfo?.cvv || ''}
+                                                            onChange={handleCardChange('cvv')}
                                                             className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                                                         />
                                                     </div>

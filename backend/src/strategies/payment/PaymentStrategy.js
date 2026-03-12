@@ -1,19 +1,18 @@
-// src/strategies/payment/PaymentStrategy.js
+﻿// src/strategies/payment/PaymentStrategy.js
 
-export class CODPaymentStrategy {
-  calculateFee(amount) {
-    return 30000; // Phí cố định 30,000 VND
+export class PaymentStrategy {
+  /**
+   * @returns {Promise<{ success: boolean, fee: number, total?: number, message?: string, meta?: unknown }>}
+   */
+  async calculateFee(..._args) {
+    throw new Error('PaymentStrategy.calculateFee(...) must be implemented');
   }
-}
 
-export class EWalletPaymentStrategy {
-  calculateFee(amount) {
-    return 0; // Không tốn phí
-  }
-}
-
-export class CreditCardPaymentStrategy {
-  calculateFee(amount) {
-    return amount * 0.02; // Phí 2%
+  // Optional: gateway-based strategies can override this.
+  /**
+   * @returns {Promise<unknown>}
+   */
+  async createPayment(_params) {
+    return null;
   }
 }

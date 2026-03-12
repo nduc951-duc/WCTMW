@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
-import CheckoutHeader from '../components/payment/CheckoutHeader';
 import PaymentOptions from '../components/payment/PaymentOptions';
 import CartSummary from '../components/payment/CartSummary';
 import { calculateCheckoutTotal, formatPrice } from '../utils/priceCalculation';
@@ -13,6 +12,12 @@ function CheckoutPage() {
     const [customerType, setCustomerType] = useState('PERSONAL');
     const [paymentStrategy, setPaymentStrategy] = useState('CREDIT_CARD');
     const [loading, setLoading] = useState(false);
+    const [cardInfo, setCardInfo] = useState({
+        cardNumber: '',
+        cardName: '',
+        expiry: '',
+        cvv: ''
+    });
 
     const cartTotal = getCartTotal();
     const checkoutData = calculateCheckoutTotal(cartItems, customerType);
@@ -45,6 +50,7 @@ function CheckoutPage() {
                 amount: cartTotal * 1000000,
                 customerTypeStrategy: customerType,
                 paymentStrategy,
+                cardInfo: paymentStrategy === 'CREDIT_CARD' ? cardInfo : undefined
             });
 
             if (!responseData || !responseData.data) {
@@ -136,6 +142,8 @@ function CheckoutPage() {
                             <PaymentOptions
                                 paymentStrategy={paymentStrategy}
                                 onPaymentChange={setPaymentStrategy}
+                                cardInfo={cardInfo}
+                                onCardInfoChange={setCardInfo}
                             />
                         </div>
 
