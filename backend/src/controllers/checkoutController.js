@@ -52,8 +52,8 @@ export const checkout = async (req, res) => {
   };
   mockDatabase.push(newOrder);
 
-  // For e-wallet, return MoMo payUrl from payment result.
-  if (paymentStrategy === 'E_WALLET') {
+  // For e-wallet (MoMo) or VNPay, return payUrl from payment result.
+  if (paymentStrategy === 'E_WALLET' || paymentStrategy === 'VNPAY') {
     const payUrl = result.paymentResult?.meta?.payUrl;
     return res.json({
       success: true,
