@@ -6,6 +6,7 @@ import { RetailTaxStrategy } from './tax/RetailTaxStrategy.js';
 import { CODPaymentStrategy } from './payment/COD_PaymentStrategy.js';
 import { CreditCardPaymentStrategy } from './payment/CreditCardStrategy.js';
 import { MomoPaymentStrategy } from './payment/MomoPaymentStrategy.js';
+import { VNPayPaymentStrategy } from './payment/VNPayPaymentStrategy.js';
 
 const TAX_STRATEGIES = Object.freeze({
   PERSONAL: RetailTaxStrategy,
@@ -16,7 +17,8 @@ const TAX_STRATEGIES = Object.freeze({
 const PAYMENT_STRATEGIES = Object.freeze({
   COD: CODPaymentStrategy,
   CREDIT_CARD: CreditCardPaymentStrategy,
-  E_WALLET: MomoPaymentStrategy
+  E_WALLET: MomoPaymentStrategy,
+  VNPAY: VNPayPaymentStrategy
 });
 
 export const createTaxStrategy = (type) => {

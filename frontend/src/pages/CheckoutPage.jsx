@@ -46,8 +46,18 @@ function CheckoutPage() {
     const handlePayment = async () => {
         setLoading(true);
         try {
+            // Convert USD to VND using realistic exchange rate (~24500 VND/USD)
+            // But for testing: if cartTotal > 100, assume it's already in VND, else convert
+            const exchangeRate = 24500;
+            const amountInVND = cartTotal > 100 ? cartTotal : cartTotal * exchangeRate;
+            
+            // Validate amount is within MoMo test range: 1000 < amount < 50,000,000
+            if (amountInVND < 1000 || amountInVND > 50000000) {
+                throw new Error(`❌ Amount must be between 1,000 and 50,000,000 VND (Current: ${Math.round(amountInVND).toLocaleString('vi-VN')} VND). Your cart: ${formatPrice(cartTotal)}`);
+            }
+
             const responseData = await checkoutAPI({
-                amount: cartTotal * 1000000,
+                amount: Math.round(amountInVND),
                 customerTypeStrategy: customerType,
                 paymentStrategy,
                 cardInfo: paymentStrategy === 'CREDIT_CARD' ? cardInfo : undefined
@@ -71,7 +81,7 @@ function CheckoutPage() {
             }, 1500);
 
         } catch (error) {
-            alert(`❌ Payment error: ${error.message}`);
+            alert(`Payment error: ${error.message}`);
         } finally {
             setLoading(false);
         }

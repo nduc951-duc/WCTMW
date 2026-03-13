@@ -34,8 +34,18 @@ function PaymentOptions({ paymentStrategy, onPaymentChange, cardInfo, onCardInfo
                 bg: 'bg-pink-50/50',
                 check: 'bg-pink-500',
                 ring: 'ring-pink-500'
-            }
-        }
+            }        },
+        {
+            id: 'VNPAY',
+            name: 'VNPay',
+            icon: 'ðŸ³',
+            description: 'Sandbox QR payment gateway',
+            theme: {
+                border: 'border-blue-500',
+                bg: 'bg-blue-50/50',
+                check: 'bg-blue-500',
+                ring: 'ring-blue-500'
+            }        }
     ];
 
     const handleCardChange = (field) => (event) => {
